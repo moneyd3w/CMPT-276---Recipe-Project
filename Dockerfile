@@ -17,6 +17,7 @@ ENV RAILS_MASTER_KEY=/app/config/master.key
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
+RUN chmod +x ./bin/rails
 # Install packages needed to build gems and node modules
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential curl git libpq-dev libvips node-gyp pkg-config python-is-python3
@@ -61,7 +62,6 @@ RUN apt-get update -qq && \
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
-RUN chmod +x ./bin/rails
 
 # Run and own only the runtime files as a non-root user for security
 RUN useradd rails --create-home --shell /bin/bash && \

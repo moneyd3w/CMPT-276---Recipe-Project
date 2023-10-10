@@ -1,5 +1,5 @@
 require_relative "boot"
-
+require_master_key = true
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
