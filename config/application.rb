@@ -1,5 +1,4 @@
 require_relative "boot"
-config.require_master_key = true
 
 require "rails/all"
 
