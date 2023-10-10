@@ -11,13 +11,12 @@ WORKDIR /rails
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
-ENV RAILS_MASTER_KEY=/app/config/master.key
+    BUNDLE_WITHOUT="development" \
+    RAILS_MASTER_KEY="/app/config/master.key"
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
-RUN chmod +x ./bin/rails
 # Install packages needed to build gems and node modules
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential curl git libpq-dev libvips node-gyp pkg-config python-is-python3
@@ -47,6 +46,7 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
+RUN chmod +x ./bin/rails
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
