@@ -81,3 +81,4 @@ production:
   database: postgresql_g85j
   username: mysiterecipeanon
   password: PpvQMf0Wl4EZ9zXhJHsiKELWltbIvEQO
+  url: <%= ENV['DATABASE_URL'] %>
